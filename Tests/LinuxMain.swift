@@ -1,6 +1,6 @@
 import XCTest
-@testable import identifiersTests
+import IdentifiersTests
 
 XCTMain([
-     testCase(identifiersTests.allTests),
+     testCase(DOITests.allTests),
 ])
