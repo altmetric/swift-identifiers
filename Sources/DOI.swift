@@ -1,3 +1,6 @@
+import Regex
+
+
 /**
  A representation of a **Digital Object Identifier**, or **DOI**.
 
@@ -26,10 +29,7 @@
 
  [doi]: http://www.doi.org/doi_handbook/2_Numbering.html#2.2.2
  */
-
-import Regex
-
-public struct DOI {
+public struct DOI: Identifier {
     /// The collection of errors that may be thrown at runtime
     public enum Errors: Error, Equatable {
         /// Does not match the accepted standard format of DOIs
