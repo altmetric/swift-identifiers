@@ -21,16 +21,22 @@ class DOITests: XCTestCase {
     }
 
     func testDOICreationWithInvalidString() {
-        let doiText = "978-1491908907"
+        let invalidDoiText = "978-1491908907"
 
         do {
-            let _ = try DOI(string: doiText)
-            XCTFail("Error should have been thrown with creating \(doiText)")
+            let _ = try DOI(string: invalidDoiText)
+            XCTFail("Error should have been thrown with creating \(invalidDoiText)")
         } catch(let error as DOI.Errors) {
-            XCTAssert(error == DOI.Errors.invalidDOI)
+            XCTAssert(error == .invalidDOI)
         } catch {
             XCTFail("Incorrect error \(error) thrown")
         }
+    }
+    
+    func testStoresNormalisedDOIs() {
+        let doi = DOI("10.1039/EL.2013.3006")
+        
+        XCTAssertEqual(doi.value, "10.1039/el.2013.3006")
     }
 
     func testExtractDOIsFromText() {
@@ -45,7 +51,9 @@ class DOITests: XCTestCase {
             ("testInitWithStaticDOI", testInitWithStaticDOI),
             ("testDOIValidity", testDOIValidity),
             ("testDOIValidityFailure", testDOIValidityFailure),
-            ("testDOICreationWithInvalidString", testDOICreationWithInvalidString)
+            ("testDOICreationWithInvalidString", testDOICreationWithInvalidString),
+            ("testStoresNormalisedDOIs", testStoresNormalisedDOIs),
+            ("testExtractDOIsFromText", testExtractDOIsFromText)
         ]
     }
 }
