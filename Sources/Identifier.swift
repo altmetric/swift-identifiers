@@ -1,5 +1,5 @@
-public enum IdentifierErrors {
-    case invalidIdentifierSyntax
+public enum IdentifierErrors: Error {
+    case invalidIdentifier
 }
 
 /// Establishes a common interface across all identifier types

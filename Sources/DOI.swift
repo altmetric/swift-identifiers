@@ -68,7 +68,7 @@ public struct DOI: Identifier {
         if DOI.isValid(string) {
             self.value = string.lowercased()
         } else {
-            throw Errors.invalidDOI
+            throw IdentifierErrors.invalidIdentifier
         }
     }
 
