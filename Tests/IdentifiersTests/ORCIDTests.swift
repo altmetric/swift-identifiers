@@ -37,7 +37,8 @@ class ORCIDTests: XCTestCase {
         return [
             ("testInitWithLiteral", testInitWithLiteral),
             ("testOrcidValidity", testOrcidValidity),
-            ("testOrcidInvalidity", testOrcidInvalidity)
+            ("testOrcidInvalidity", testOrcidInvalidity),
+            ("testCreationWithInvalidORCID", testCreationWithInvalidORCID)
         ]
     }
 }

@@ -45,6 +45,13 @@ class DOITests: XCTestCase {
 
         XCTAssertEqual(dois, [DOI("10.1049/el.2013.3006"), DOI("10.1097/01.asw.0000443266.17665.19")])
     }
+    
+    func testExtractISBN_A() {
+        let text = "This is an ISBN-A: 10.978.8898392/315"
+        let dois = DOI.extract(from: text)
+        
+        XCTAssertEqual(dois, [DOI("10.978.8898392/315")])
+    }
 
     static var allTests : [(String, (DOITests) -> () throws -> Void)] {
         return [

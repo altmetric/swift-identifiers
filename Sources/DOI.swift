@@ -75,14 +75,14 @@ public struct DOI: Identifier {
     /// Find all valid DOIs in a given string.
     /// - Returns: an array of matching `DOI` objects
     public static func extract(from source: String) -> [DOI] {
-        let regex = Regex("\\b10\\.\\d{3,}/\\S+\\b")
+        let regex = Regex("\\b10\\.(?:97[89]\\.\\d{2,8}/\\d{1,7}|\\d{4,9}/\\S+)\\b")
         return regex.allMatches(source).map { $0.matchedString }
             .flatMap { try? DOI.init(string: $0) }
     }
 
     /// Check a given piece of text for DOI validity
     public static func isValid(_ text: String) -> Bool {
-        let regex = Regex("\\A10\\.\\d{3,}/\\S+\\z")
+        let regex = Regex("\\A10\\.(?:97[89]\\.\\d{2,8}/\\d{1,7}|\\d{4,9}/\\S+)\\z")
 
         return regex.matches(text)
     }
