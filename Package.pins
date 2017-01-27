@@ -1,0 +1,12 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "Regex",
+      "reason": null,
+      "repositoryURL": "https://github.com/sharplet/Regex.git",
+      "version": "0.4.3"
+    }
+  ],
+  "version": 1
+}
