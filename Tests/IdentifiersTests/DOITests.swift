@@ -26,8 +26,8 @@ class DOITests: XCTestCase {
         do {
             let _ = try DOI(string: invalidDoiText)
             XCTFail("Error should have been thrown with creating \(invalidDoiText)")
-        } catch(let error as DOI.Errors) {
-            XCTAssert(error == .invalidDOI)
+        } catch(let error as IdentifierErrors) {
+            XCTAssert(error == .invalidIdentifier)
         } catch {
             XCTFail("Incorrect error \(error) thrown")
         }
