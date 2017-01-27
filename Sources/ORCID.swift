@@ -1,27 +1,15 @@
 import Regex
 import Foundation
 
-public struct ORCID {
-    public let value: String
+public struct ORCID: Scheme {
+    public static let validationRegex = Regex("\\A(?:\\d{4}-){3}\\d{3}[\\dX]\\z")
+    public static let extractionRegex = Regex("\\b(?:\\d{4}-){3}\\d{3}[\\dX]\\b")
     
-    public init(_ value: StaticString) {
-        self.value = value.description
-    }
-    
-    public init(string: String) throws {
-        if ORCID.isValid(string) {
-            self.value = string.uppercased()
-        } else {
-            throw IdentifierErrors.invalidIdentifier
-        }
-    }
-    
-    public static func isValid(_ text: String) -> Bool {
-        let regex = Regex("\\A(?:\\d{4}-){3}\\d{3}[\\dX]\\z")
-        guard regex.matches(text) else {
+    public static func isValid(value: String) -> Bool {
+        guard validationRegex.matches(value) else {
             return false
         }
-        return String(text.characters.suffix(1)) == checkDigit(text)
+        return String(value.characters.suffix(1)) == checkDigit(value)
     }
     
     private static func checkDigit(_ text: String) -> String {

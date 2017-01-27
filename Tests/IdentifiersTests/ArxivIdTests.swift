@@ -3,26 +3,26 @@ import Identifiers
 
 class ArxivIdTests: XCTestCase {
     func testInitWithPre2007ArxivId() {
-        let arxivId = ArxivId("math.GT/0309136")
+        let arxivId = Identifier<ArxivId>("math.GT/0309136")
 
         XCTAssertEqual(arxivId.value, "math.GT/0309136")
     }
 
     func testInitWithPost2007UnversionedArxivId() {
-        let arxivId = ArxivId("0706.0001")
+        let arxivId = Identifier<ArxivId>("0706.0001")
 
         XCTAssertEqual(arxivId.value, "0706.0001")
     }
 
     func testInitWithPost2007VersionedArxivId() {
-        let arxivId = ArxivId("1501.00001v2")
+        let arxivId = Identifier<ArxivId>("1501.00001v2")
 
         XCTAssertEqual(arxivId.value, "1501.00001v2")
     }
 
     func testArxivIdCreationWithPre2007ArxivId() {
         do {
-            let arxivId = try ArxivId(string: "math.GT/0309136")
+            let arxivId = try Identifier<ArxivId>(value: "math.GT/0309136")
             XCTAssertEqual(arxivId.value, "math.GT/0309136")
         } catch {
             XCTFail("Should not have thrown an error")
@@ -31,7 +31,7 @@ class ArxivIdTests: XCTestCase {
 
     func testArxivIdCreationWithPost2007UnversionedArxivId() {
         do {
-            let arxivId = try ArxivId(string: "0706.0001")
+            let arxivId = try Identifier<ArxivId>(value: "0706.0001")
             XCTAssertEqual(arxivId.value, "0706.0001")
         } catch {
             XCTFail("Should not have thrown an error")
@@ -40,7 +40,7 @@ class ArxivIdTests: XCTestCase {
 
     func testArxivIdCreationWithPost2007VersionedArxivId() {
         do {
-            let arxivId = try ArxivId(string: "1501.00001v2")
+            let arxivId = try Identifier<ArxivId>(value: "1501.00001v2")
             XCTAssertEqual(arxivId.value, "1501.00001v2")
         } catch {
             XCTFail("Should not have thrown an error")
@@ -48,7 +48,7 @@ class ArxivIdTests: XCTestCase {
     }
 
     func testArxivIdCreationStripsArxivPrefix() {
-        let arxivId = ArxivId("arXiv:1501.00001v2")
+        let arxivId = Identifier<ArxivId>("arXiv:1501.00001v2")
 
         XCTAssertEqual(arxivId.value, "1501.00001v2")
     }
@@ -57,10 +57,10 @@ class ArxivIdTests: XCTestCase {
         let invalidArxivId = "10.1049/el.2013.3006"
 
         do {
-            let _ = try ArxivId(string: invalidArxivId)
+            let _ = try Identifier<ArxivId>(value: invalidArxivId)
             XCTFail("Should have thrown an error")
-        } catch(let error as ArxivId.Errors) {
-            XCTAssert(error == .invalidArxivId)
+        } catch(let error as IdentifierErrors) {
+            XCTAssert(error == .invalidIdentifier)
         } catch {
             XCTFail("Incorrect error \(error) throws")
         }
@@ -68,9 +68,9 @@ class ArxivIdTests: XCTestCase {
 
     func testExtractArxivIdsFromText() {
         let text = "math.GT/0309136 is an ArXiv ID, as is arxiv:math.ST/1007121. 0706.0001 is an unversioned post-2007 ID, while an unversioned one is arXiv:1501.00001v2."
-        let arxivIds = ArxivId.extract(from: text)
+        let arxivIds = Identifier<ArxivId>.extract(from: text)
 
-        XCTAssertEqual(arxivIds, [ArxivId("math.GT/0309136"), ArxivId("math.ST/1007121"), ArxivId("0706.0001"), ArxivId("1501.00001v2")])
+        XCTAssertEqual(arxivIds, [Identifier<ArxivId>("math.GT/0309136"), Identifier<ArxivId>("math.ST/1007121"), Identifier<ArxivId>("0706.0001"), Identifier<ArxivId>("1501.00001v2")])
     }
 
     static var allTests: [(String, (ArxivIdTests) -> () throws -> Void)] {

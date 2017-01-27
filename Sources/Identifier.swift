@@ -3,15 +3,26 @@ public enum IdentifierErrors: Error {
 }
 
 /// Establishes a common interface across all identifier types
-public protocol Identifier: Equatable {
+public struct Identifier<T: Scheme> {
     /// Internal representation of the identifier
-    var value: String { get }
+    public let value: String
     
     /// Create an identifier with a string literal. Incorrectly structured identifiers should generate a precondition failure, as it is considered a developer error.
-    init(_ value: StaticString)
+    public init(_ staticValue: StaticString) {
+        let value = staticValue.description
+        guard T.isValid(value: value) else {
+            preconditionFailure("Value '\(value)' is not valid")
+        }
+        self.value = T.normalize(value: value)
+    }
     
     /// Create an identifier from a supplied string. An invalid identifier is expected to throw an error
-    init(string: String) throws
+    public init(value: String) throws {
+        guard T.isValid(value: value) else {
+            throw IdentifierErrors.invalidIdentifier
+        }
+        self.value = T.normalize(value: value)
+    }
     
     /// Extract any text strings matching the identifier's format, and return them as a collection of Identifiers.
     /// - parameters:
@@ -19,13 +30,15 @@ public protocol Identifier: Equatable {
     /// - returns:
     ///   - an array of identifiers located in the string, if any.
     ///   - if no matches are found, an empty array is returned
-    static func extract(from: String) -> [Self]
-    
-    /// Establish whether the given text is a valid identifier
-    /// - parameters:
-    ///   - text: Possible identifier value
-    /// - returns:
-    ///   - `true` if the entire supplied string matches the identifier's structure
-    ///   - `false` if the identifier does not match the syntax, or if it has extraneous text either side of a valid identifier
-    static func isValid(_ text: String) -> Bool
+    public static func extract(from source: String) -> [Identifier<T>] {
+        return T.extractionRegex.allMatches(source)
+            .map { $0.matchedString }
+            .flatMap { try? Identifier<T>(value: $0) }
+    }
+}
+
+extension Identifier: Equatable { }
+
+public func ==<T: Scheme>(lhs: Identifier<T>, rhs: Identifier<T>) -> Bool {
+    return lhs.value == rhs.value
 }

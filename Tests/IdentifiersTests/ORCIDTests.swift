@@ -3,7 +3,7 @@ import Identifiers
 
 class ORCIDTests: XCTestCase {
     func testInitWithLiteral() {
-        let orcid = ORCID("0000-0002-0088-0058")
+        let orcid = Identifier<ORCID>("0000-0002-0088-0058")
         
         XCTAssertEqual(orcid.value, "0000-0002-0088-0058")
     }
@@ -11,20 +11,20 @@ class ORCIDTests: XCTestCase {
     func testOrcidValidity() {
         let orcidText = "0000-0002-0088-0058"
         
-        XCTAssertTrue(ORCID.isValid(orcidText))
+        XCTAssertTrue(ORCID.isValid(value: orcidText))
     }
     
     func testOrcidInvalidity() {
         let invalidOrcidText = "0000-0002-0088-005X"
         
-        XCTAssertFalse(ORCID.isValid(invalidOrcidText))
+        XCTAssertFalse(ORCID.isValid(value: invalidOrcidText))
     }
     
     func testCreationWithInvalidORCID() {
         let invalidOrcidText = "0000-0002-0088-005X"
         
         do {
-            let _ = try ORCID(string: invalidOrcidText)
+            let _ = try Identifier<ORCID>(value: invalidOrcidText)
             XCTFail("Error should have been thrown when creating ORCID with invalid string '\(invalidOrcidText)'")
         } catch(let error as IdentifierErrors) {
             XCTAssert(error == .invalidIdentifier)

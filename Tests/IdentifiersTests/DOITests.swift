@@ -3,7 +3,7 @@ import Identifiers
 
 class DOITests: XCTestCase {
     func testInitWithStaticDOI() {
-        let doi = DOI("10.2345/sfgjhweefghej")
+        let doi = Identifier<DOI>("10.2345/sfgjhweefghej")
 
         XCTAssertEqual(doi.value, "10.2345/sfgjhweefghej")
     }
@@ -11,20 +11,20 @@ class DOITests: XCTestCase {
     func testDOIValidity() {
         let doiText = "10.2134/sgksjfg3.2134214oy"
 
-        XCTAssertTrue(DOI.isValid(doiText))
+        XCTAssertTrue(DOI.isValid(value: doiText))
     }
 
     func testDOIValidityFailure() {
         let doiText = "978-1491908907"
 
-        XCTAssertFalse(DOI.isValid(doiText))
+        XCTAssertFalse(DOI.isValid(value: doiText))
     }
 
     func testDOICreationWithInvalidString() {
         let invalidDoiText = "978-1491908907"
 
         do {
-            let _ = try DOI(string: invalidDoiText)
+            let _ = try Identifier<DOI>(value: invalidDoiText)
             XCTFail("Error should have been thrown with creating \(invalidDoiText)")
         } catch(let error as IdentifierErrors) {
             XCTAssert(error == .invalidIdentifier)
@@ -34,23 +34,23 @@ class DOITests: XCTestCase {
     }
     
     func testStoresNormalisedDOIs() {
-        let doi = DOI("10.1039/EL.2013.3006")
+        let doi = Identifier<DOI>("10.1039/EL.2013.3006")
         
         XCTAssertEqual(doi.value, "10.1039/el.2013.3006")
     }
 
     func testExtractDOIsFromText() {
         let text = "10.1049/el.2013.3006 is a DOI. Can you extract a second DOI of 10.1097/01.asw.0000443266.17665.19?"
-        let dois = DOI.extract(from: text)
+        let dois = Identifier<DOI>.extract(from: text)
 
-        XCTAssertEqual(dois, [DOI("10.1049/el.2013.3006"), DOI("10.1097/01.asw.0000443266.17665.19")])
+        XCTAssertEqual(dois, [Identifier<DOI>("10.1049/el.2013.3006"), Identifier<DOI>("10.1097/01.asw.0000443266.17665.19")])
     }
     
     func testExtractISBN_A() {
         let text = "This is an ISBN-A: 10.978.8898392/315"
-        let dois = DOI.extract(from: text)
+        let dois = Identifier<DOI>.extract(from: text)
         
-        XCTAssertEqual(dois, [DOI("10.978.8898392/315")])
+        XCTAssertEqual(dois, [Identifier<DOI>("10.978.8898392/315")])
     }
 
     static var allTests : [(String, (DOITests) -> () throws -> Void)] {
