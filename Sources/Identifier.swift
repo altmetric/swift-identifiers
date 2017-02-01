@@ -31,13 +31,9 @@ public struct Identifier<T: Scheme> {
     ///   - an array of identifiers located in the string, if any.
     ///   - if no matches are found, an empty array is returned
     public static func extract(from source: String) -> [Identifier<T>] {
-        let matches = T.extractionRegex.allMatches(source)
-        let matchedStrings = matches.map { $0.matchedString }
-        let identifiers = matchedStrings.flatMap { try? Identifier<T>(value: $0) }
-        return identifiers
-//        return T.extractionRegex.allMatches(source)
-//            .map { $0.matchedString }
-//            .flatMap { try? Identifier<T>(value: $0) }
+        return T.extract(from: source)
+            .map { $0.matchedString }
+            .flatMap { try? Identifier<T>(value: $0) }
     }
 }
 

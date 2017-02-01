@@ -1,9 +1,8 @@
 import Regex
 import Foundation
 
-public struct ORCID: Scheme {
-    public static let validationRegex = Regex("\\A(?:\\d{4}-){3}\\d{3}[\\dX]\\z")
-    public static let extractionRegex = Regex("\\b(?:\\d{4}-){3}\\d{3}[\\dX]\\b")
+public struct ORCID: Scheme, Extractable {
+    public static let identifierPattern = "(?:\\d{4}-){3}\\d{3}[\\dX]"
     
     public static func isValid(value: String) -> Bool {
         guard validationRegex.matches(value) else {

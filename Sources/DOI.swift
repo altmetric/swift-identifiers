@@ -29,9 +29,8 @@ import Regex
 
  [doi]: http://www.doi.org/doi_handbook/2_Numbering.html#2.2.2
  */
-public struct DOI: Scheme {
-    public static let validationRegex = Regex("\\A10\\.(?:97[89]\\.\\d{2,8}/\\d{1,7}|\\d{4,9}/\\S+)\\z")
-    public static var extractionRegex = Regex("\\b10\\.(?:97[89]\\.\\d{2,8}/\\d{1,7}|\\d{4,9}/\\S+)\\b")
+public struct DOI: Scheme, Extractable {
+    public static let identifierPattern = "10\\.(?:97[89]\\.\\d{2,8}/\\d{1,7}|\\d{4,9}/\\S+)"
     
     public static func normalize(value: String) -> String {
         return value.lowercased()

@@ -1,10 +1,8 @@
 import Regex
 import Foundation
 
-internal struct ISBN10: Scheme {
-    static var extractionRegex = Regex("\\b(?=[0-9X]{10}|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13})\\d{1,5}[- ]?\\d+[- ]?\\d+[- ]?[0-9X]\\b", options: .IgnoreCase)
-    static var validationRegex = Regex(
-        "\\A(?=[0-9X]{10}|(?=(?:\\d+[- ]){3})[- 0-9X]{13})\\d{1,5}[- ]?\\d+[- ]?\\d+[- ]?[0-9X]\\z", options: .IgnoreCase)
+internal struct ISBN10: Scheme, Extractable {
+    static var identifierPattern = "(?=[0-9X]{10}|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13})\\d{1,5}[- ]?\\d+[- ]?\\d+[- ]?[0-9X]"
     
     public static func isValid(value: String) -> Bool {
         guard validationRegex.matches(value) else {
