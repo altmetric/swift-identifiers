@@ -2,24 +2,26 @@
 
 A work-in-progress Swift library for handling and extracting scholarly identifiers from text.
 
-**Current version:** Unreleased
-**Supported Swift versions:** 3.0x
+* **Current version:** Unreleased
+* **Supported Swift versions:** 3.0x
 
 # Usage
+
+**_NB: This branch involves some attempts to redefine the data structures, so the README may be out of sync until merged into `master`._**
 
 ```swift
 import Identifiers
 
 // Extracting from a larger text element
-let dois = DOI.extract("I love 10.1234/foobar and 10.1234/bazquux")
+let dois = Identifier<DOI>.extract("I love 10.1234/foobar and 10.1234/bazquux")
 
 // Instantiating with a literal string
 // (failures are assumed to be developer error)
-let doi = DOI("10.1234/foobar")
+let doi = Identifier<DOI>("10.1234/foobar")
 
 // Instantiating from a variable
 do {
-  let doi = try DOI("10.1234/bazquux")
+  let doi = try Identifier<DOI>("10.1234/bazquux")
 } catch(let error) {
   // throws an IdentifierError.invalidIdentifier
 }
