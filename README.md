@@ -1,3 +1,7 @@
+# THIS PROJECT IS DEPRECATED
+
+swift-identifiers is not maintained anymore.
+
 # Swift Identifiers
 
 A work-in-progress Swift library for handling and extracting scholarly identifiers from text.
